@@ -21,7 +21,7 @@ class CalculateVacation implements Command
         $service = new EmployeeService($repository);
         $employees = $service->getEmployees($year);
 
-        if(empty($employees)) {
+        if (empty($employees)) {
             echo 'Employees not found' . PHP_EOL;
             exit(1);
         }

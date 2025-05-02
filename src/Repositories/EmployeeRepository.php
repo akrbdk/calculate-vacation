@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Employee;
+use DateTime;
 use Exception;
 
 class EmployeeRepository
@@ -19,7 +20,7 @@ class EmployeeRepository
     {
         $employees = [];
 
-        if(!file_exists($this->path)) {
+        if (!file_exists($this->path)) {
             return $employees;
         }
 
@@ -33,9 +34,9 @@ class EmployeeRepository
 
             $employees[] = new Employee(
                 $name,
-                new \DateTime($birthDate),
-                new \DateTime($contractStart),
-                new \DateTime(),
+                new DateTime($birthDate),
+                new DateTime($contractStart),
+                new DateTime(),
                 $specialDays !== '' ? (int)$specialDays : null
             );
         }

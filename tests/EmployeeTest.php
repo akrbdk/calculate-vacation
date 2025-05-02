@@ -2,8 +2,9 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
 use App\Models\Employee;
+use DateTime;
+use PHPUnit\Framework\TestCase;
 
 class EmployeeTest extends TestCase
 {
@@ -11,8 +12,8 @@ class EmployeeTest extends TestCase
     {
         $employee = new Employee(
             'Employee',
-            new \DateTime('1990-01-01'),
-            new \DateTime('2010-01-01'),
+            new DateTime('1990-01-01'),
+            new DateTime('2010-01-01'),
             null
         );
         $days = $employee->calculateVacationDaysForYear(2024);
@@ -23,8 +24,8 @@ class EmployeeTest extends TestCase
     {
         $employee = new Employee(
             'Employee',
-            new \DateTime('1990-01-01'),
-            new \DateTime('2020-01-01'),
+            new DateTime('1990-01-01'),
+            new DateTime('2020-01-01'),
             null,
             32
         );
@@ -36,8 +37,8 @@ class EmployeeTest extends TestCase
     {
         $employee = new Employee(
             'Employee',
-            new \DateTime('1990-01-01'),
-            new \DateTime('2024-03-15'),
+            new DateTime('1990-01-01'),
+            new DateTime('2024-03-15'),
             null
         );
         $days = $employee->calculateVacationDaysForYear(2024);
@@ -49,9 +50,9 @@ class EmployeeTest extends TestCase
     {
         $employee = new Employee(
             'Employee',
-            new \DateTime('1980-01-01'),
-            new \DateTime('2010-01-01'),
-            new \DateTime('2023-12-31')
+            new DateTime('1980-01-01'),
+            new DateTime('2010-01-01'),
+            new DateTime('2023-12-31')
         );
         $days = $employee->calculateVacationDaysForYear(2024);
         $this->assertEquals(0, $days);
@@ -61,8 +62,8 @@ class EmployeeTest extends TestCase
     {
         $employee = new Employee(
             'Employee',
-            new \DateTime('1980-01-01'),
-            new \DateTime('2010-01-01'),
+            new DateTime('1980-01-01'),
+            new DateTime('2010-01-01'),
             null
         );
         $days = $employee->calculateVacationDaysForYear(2024);
