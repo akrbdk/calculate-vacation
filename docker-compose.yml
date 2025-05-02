@@ -1,0 +1,12 @@
+version: "3.7"
+
+services:
+  app:
+    build: ./docker
+    image: akrbdk/php_calculate-vacation
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+    extra_hosts:
+      - host.docker.internal:host-gateway

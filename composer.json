@@ -1,0 +1,22 @@
+{
+    "name": "akrbdk/php-calculate-vacation",
+    "type": "project",
+    "description": "PHP calculate-vacation tasks",
+    "authors": [
+        {
+            "name": "Alex Karabudka",
+            "email": "akarabudka@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\": "src"
+        }
+    }
+}
