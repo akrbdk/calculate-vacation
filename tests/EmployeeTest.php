@@ -8,65 +8,48 @@ use PHPUnit\Framework\TestCase;
 
 class EmployeeTest extends TestCase
 {
-    public function testMinimumVacationDays(): void
-    {
+    /**
+     * @dataProvider vacationDataProvider
+     */
+    public function testVacationCalculation(
+        string $name,
+        string $birthDate,
+        string $contractStart,
+        ?string $contractEnd,
+        ?int $specialDays,
+        int $expected
+    ): void {
         $employee = new Employee(
-            'Employee',
-            new DateTime('1990-01-01'),
-            new DateTime('2010-01-01'),
-            null
+            $name,
+            new DateTime($birthDate),
+            new DateTime($contractStart),
+            $contractEnd ? new DateTime($contractEnd) : null,
+            $specialDays
         );
-        $days = $employee->calculateVacationDaysForYear(2024);
-        $this->assertEquals(26 + 2, $days);
+
+        $actual = $employee->calculateVacationDaysForYear(2024);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function testSpecialContractVacationDays(): void
+    public static function vacationDataProvider(): array
     {
-        $employee = new Employee(
-            'Employee',
-            new DateTime('1990-01-01'),
-            new DateTime('2020-01-01'),
-            null,
-            32
-        );
-        $days = $employee->calculateVacationDaysForYear(2024);
-        $this->assertEquals(32, $days);
-    }
-
-    public function testPartialEmploymentFrom15th(): void
-    {
-        $employee = new Employee(
-            'Employee',
-            new DateTime('1990-01-01'),
-            new DateTime('2024-03-15'),
-            null
-        );
-        $days = $employee->calculateVacationDaysForYear(2024);
-        $daysExpected = intval(26 / 12 * 10);
-        $this->assertEquals($daysExpected, $days);
-    }
-
-    public function testContractEndedBeforeYear(): void
-    {
-        $employee = new Employee(
-            'Employee',
-            new DateTime('1980-01-01'),
-            new DateTime('2010-01-01'),
-            new DateTime('2023-12-31')
-        );
-        $days = $employee->calculateVacationDaysForYear(2024);
-        $this->assertEquals(0, $days);
-    }
-
-    public function testAdditionalDaysByAgeAndYears(): void
-    {
-        $employee = new Employee(
-            'Employee',
-            new DateTime('1980-01-01'),
-            new DateTime('2010-01-01'),
-            null
-        );
-        $days = $employee->calculateVacationDaysForYear(2024);
-        $this->assertEquals(28, $days);
+        return [
+            // name, birthDate, contractStart, contractEnd, specialDays, expected
+            'minimum with bonus' => [
+                'Test Employee', '1990-01-01', '2010-01-01', null, null, 28
+            ],
+            'special contract full year' => [
+                'Special Contract', '1990-01-01', '2020-01-01', null, 32, 32
+            ],
+            'partial from 15th March' => [
+                'Partial', '1990-01-01', '2024-03-15', null, null, (int) (26 / 12 * 10)
+            ],
+            'ended before year' => [
+                'Left Employee', '1980-01-01', '2010-01-01', '2023-12-31', null, 0
+            ],
+            'older with 14 years' => [
+                'Older', '1980-01-01', '2010-01-01', null, null, 28
+            ],
+        ];
     }
 }
