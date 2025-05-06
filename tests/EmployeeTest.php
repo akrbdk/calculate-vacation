@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\Employee;
+use App\Services\EmployeeService;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +28,7 @@ class EmployeeTest extends TestCase
             $specialDays
         );
 
-        $actual = $employee->calculateVacationDaysForYear(2024);
+        $actual = EmployeeService::calculateVacation($employee, 2024);
         $this->assertEquals($expected, $actual);
     }
 

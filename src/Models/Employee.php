@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Contracts\YearDefinition;
+use App\Models\Traits\Year;
 use DateTime;
 
-class Employee
+class Employee implements YearDefinition
 {
+    use Year;
+
     public function __construct(
         private readonly string    $name,
         private readonly DateTime  $birthDate,
@@ -21,36 +25,19 @@ class Employee
         return $this->name;
     }
 
-    public function calculateVacationDaysForYear(int $year): int
+    public function getContractStart(): DateTime
     {
-        $baseDays = $this->specialVacationDays ?? 26;
+        return $this->contractStart;
+    }
 
-        $start = $this->getEmploymentStartForYear($year);
-        $end = $this->getEmploymentEndForYear($year);
+    public function getContractEnd(): ?DateTime
+    {
+        return $this->contractEnd;
+    }
 
-        if (!$start || !$end) {
-            return 0;
-        }
-
-        $age = $this->getAgeOnYear($year);
-
-        if ($age >= 30) {
-            $employmentYears = $end->diff($this->contractStart)->y;
-            $extraDays = intdiv($employmentYears, 5);
-            $baseDays += $extraDays;
-        }
-
-        $month = (int)$start->format('n');
-        $day = (int)$start->format('j');
-        $startMonth = ($day <= 1) ? $month : (($day <= 15) ? $month : $month + 1);
-        $monthsWorked = max(0, 12 - $startMonth + 1);
-
-        if ($this->contractEnd) {
-            $endMonth = (int)$end->format('n');
-            $monthsWorked = max(0, $endMonth - $startMonth + 1);
-        }
-
-        return (int)floor(($baseDays / 12) * $monthsWorked);
+    public function getSpecialVacationDays(): ?int
+    {
+        return $this->specialVacationDays;
     }
 
     public function getEmploymentStartForYear(int $year): ?DateTime
@@ -64,11 +51,6 @@ class Employee
         return max($this->contractStart, $onDate);
     }
 
-    public function getStartYearDate(int $year): DateTime
-    {
-        return new DateTime("$year-01-01");
-    }
-
     public function getEmploymentEndForYear(int $year): ?DateTime
     {
         if ($this->contractEnd && (int)$this->contractEnd->format('Y') < $year) {
@@ -78,11 +60,6 @@ class Employee
         $onDate = $this->getEndYearDate($year);
 
         return $this->contractEnd && $this->contractEnd < $onDate ? $this->contractEnd : $onDate;
-    }
-
-    public function getEndYearDate(int $year): DateTime
-    {
-        return new DateTime("$year-12-31");
     }
 
     public function getAgeOnYear(int $year): int
