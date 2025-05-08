@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.3-apache
 
 # Copy virtual host into container
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
@@ -18,7 +18,7 @@ RUN apt-get update && \
 # Install PHP Extensions
 RUN docker-php-ext-install zip
 
-RUN pecl install -o -f xdebug-3.1.5 \
+RUN pecl install -o -f xdebug \
     && docker-php-ext-enable xdebug
 #     && rm -rf /tmp/pear
 
