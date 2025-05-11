@@ -6,7 +6,7 @@ use App\Models\Employee;
 use DateTime;
 use Exception;
 
-class EmployeeRepository
+final class EmployeeRepository
 {
     public function __construct(private readonly string $path)
     {

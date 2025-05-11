@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Employee;
 use App\Repositories\EmployeeRepository;
 
-class EmployeeService
+final class EmployeeService
 {
     public function __construct(private readonly EmployeeRepository $employeeRepository)
     {

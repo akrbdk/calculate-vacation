@@ -6,7 +6,7 @@ use App\Models\Contracts\YearDefinition;
 use App\Models\Traits\Year;
 use DateTime;
 
-class Employee implements YearDefinition
+final class Employee implements YearDefinition
 {
     use Year;
 

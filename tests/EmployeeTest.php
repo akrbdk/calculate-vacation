@@ -7,7 +7,7 @@ use App\Services\EmployeeService;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
-class EmployeeTest extends TestCase
+final class EmployeeTest extends TestCase
 {
     /**
      * @dataProvider vacationDataProvider

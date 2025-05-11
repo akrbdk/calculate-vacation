@@ -16,7 +16,7 @@ use App\Services\EmployeeService;
     hidden: false
 )]
 
-class CalculateVacationCommand extends Command
+final class CalculateVacationCommand extends Command
 {
     protected function configure(): void
     {
